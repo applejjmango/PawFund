@@ -27,7 +27,6 @@ const AlertModal = ({ setIsOpen, campaignId }) => {
         `${process.env.NEXT_PUBLIC_API_BASE_URL}/campaigns/${campaignId}`,
         { method: "PUT" }
       );
-      console.log("res => ", res);
 
       if (res.ok) toast.success("모금 활동이 성공적으로 종료되었습니다.");
       else toast.error("모금 활동 종료에 실패했습니다.");
