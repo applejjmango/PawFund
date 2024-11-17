@@ -6,7 +6,7 @@ export async function PUT(req, { params }) {
     const { id } = params;
     const { contract } = connectBlockchain();
 
-    await contract.closeCampaign(id, { gasLimit: 3000000 });
+    await contract.closeCampaign(id, { gasLimit: 1000000 });
 
     return NextResponse.json(
       {},
