@@ -27,12 +27,40 @@ const fetchCampaigns = async () => {
 };
 
 const fetchTotalCollected = async () => {
-  const res = await fetch(`${process.env.NEXT_PUBLIC_API_BASE_URL}/total`, {
-    method: "GET",
-    cache: "no-cache",
-  });
-  const data = await res.json();
-  return data.total || 0;
+  try {
+    console.log(
+      "process.env.NEXT_PUBLIC_API_BASE_URL}",
+      process.env.NEXT_PUBLIC_API_BASE_URL
+    );
+    console.log(
+      "process.env.NEXT_PUBLIC_API_BASE_URL}/total",
+      `${process.env.NEXT_PUBLIC_API_BASE_URL}/total`
+    );
+
+    const res = await fetch(`${process.env.NEXT_PUBLIC_API_BASE_URL}/total`, {
+      method: "GET",
+      cache: "no-cache",
+    });
+
+    // 응답 상태 코드 확인
+    if (!res.ok) {
+      console.error(`Error fetching total collected: ${res.statusText}`);
+      return 0; // 기본값으로 0 반환
+    }
+
+    // JSON 파싱 시도
+    try {
+      const data = await res.json();
+      return data.total || 0; // 응답이 올바르면 total 반환
+    } catch (jsonError) {
+      console.error("Error parsing JSON response:", jsonError);
+      return 0; // JSON 파싱 실패 시 기본값 반환
+    }
+  } catch (error) {
+    // 네트워크 요청 실패 시
+    console.error("Network error fetching total collected:", error);
+    return 0; // 기본값으로 0 반환
+  }
 };
 
 const Home = async () => {

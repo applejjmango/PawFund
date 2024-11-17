@@ -34,16 +34,16 @@ const WithdrawModal = ({
   const handleClick = async (type) => {
     setLoading(true);
     if (type === "withdraw") {
-      if (amount <= 0) return toast.error("Please enter a valid amount");
+      if (amount <= 0) return toast.error("유효한 금액을 입력해주세요.");
 
       try {
         await contract.withdraw(campaignId, ethers.parseEther(amount), {
           gasLimit: 1000000,
         });
 
-        toast.success("Withdraw Successful!");
+        toast.success("출금 성공!");
       } catch (error) {
-        toast.error("Withdraw Failed!");
+        toast.error("출금 실패!");
       }
     }
 
@@ -59,13 +59,13 @@ const WithdrawModal = ({
       >
         <div className="flex flex-col sm:flex-row gap-4">
           <div className="flex flex-col w-full items-center">
-            <p className="text-xl">Total Collected</p>
+            <p className="text-xl">총 모금액</p>
             <p className="text-xl font-semibold text-emerald-500">
               {totalCollected ?? 0} Eth
             </p>
           </div>
           <div className="flex flex-col w-full items-center">
-            <p className="text-xl">Total Withdrawn</p>
+            <p className="text-xl">총 출금액</p>
             <p className="text-xl font-semibold text-emerald-500">
               {totalWithdrawn ?? 0} Eth
             </p>
@@ -73,8 +73,9 @@ const WithdrawModal = ({
         </div>
         <div className="flex flex-col py-8">
           <p className="text-start text-neutral-500">
-            * You can withdraw only{" "}
-            {((totalCollected ?? 0) - (totalWithdrawn ?? 0)).toFixed(2)} Eth. *
+            * 출금 가능한 금액은{" "}
+            {((totalCollected ?? 0) - (totalWithdrawn ?? 0)).toFixed(2)} Eth
+            입니다. *
           </p>
           <RangeInput
             max={(totalCollected ?? 0) - (totalWithdrawn ?? 0)}
@@ -90,14 +91,14 @@ const WithdrawModal = ({
             onClick={() => handleClick("withdraw")}
             className="bg-emerald-500 border-2 border-emerald-500 py-2 px-4 rounded-lg hover:border-emerald-600 hover:bg-emerald-600 transition-all duration-200"
           >
-            Withdraw
+            출금하기
           </ClientButton>
           <ClientButton
             loading={loading}
             onClick={() => handleClick("cancel")}
             className="border-2 border-emerald-500 text-emerald-500 py-2 px-4 rounded-lg hover:border-emerald-600 hover:bg-emerald-600 transition-all duration-200 hover:text-neutral-200"
           >
-            Cancel
+            취소하기
           </ClientButton>
         </div>
       </div>
